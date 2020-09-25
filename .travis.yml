@@ -1,10 +1,39 @@
-os:
-  - linux
-  - osx
+---
 language: cpp
-install:
-  - make install_deps
-  - source setup.bash
-script:
-  - mkdir build && cd build && cmake .. -DPYTHON_EXECUTABLE=$(which python2) && make && make tests && make run_tests
-  - catkin_test_results .
+matrix:
+  include:
+    - os: linux
+      dist: focal
+      compiler: gcc
+      script:
+        - sudo apt update
+        - >
+          sudo apt install build-essential
+          catkin cmake doxygen graphviz libboost-dev
+        - mkdir build && cd build
+        - cmake ..
+        - make
+        - make test
+
+    - os: linux
+      dist: precise
+      compiler: gcc
+      install:
+        - make install_deps
+        - source setup.bash
+      script:
+        - mkdir build && cd build
+        - cmake -DPYTHON_EXECUTABLE=$(which python2) ..
+        - make
+        - make run_tests
+
+    - os: osx
+      compiler: clang
+      install:
+        - make install_deps
+        - source setup.bash
+      script:
+        - mkdir build && cd build
+        - cmake -DPYTHON_EXECUTABLE=$(which python2) ..
+        - make
+        - make run_tests
