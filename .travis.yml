@@ -3,19 +3,6 @@ language: cpp
 matrix:
   include:
     - os: linux
-      dist: focal
-      compiler: gcc
-      script:
-        - sudo apt update
-        - >
-          sudo apt install build-essential
-          catkin cmake doxygen graphviz libboost-dev
-        - mkdir build && cd build
-        - cmake ..
-        - make
-        - make test
-
-    - os: linux
       dist: precise
       compiler: gcc
       install:
